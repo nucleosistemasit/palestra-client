@@ -88,7 +88,30 @@
       document.body.appendChild(script);
       function starthost() {
 
-          var peer = new Peer("palestrante-senior-nucleo-pedro");
+          var peer = new Peer("palestrante-senior-nucleo-pedro", {
+            config: {
+                'iceServers': [
+                {
+                    url: "stun:openrelay.metered.ca:80"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:80",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:443",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:443?transport=tcp",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                }
+                ]
+            }
+        });
 
           peer.on('connection', function(conn) {
               conn.on('open', async function(data) {
@@ -99,7 +122,30 @@
         
       }
       function startaudio() {
-        let peer = new Peer();
+        let peer = new Peer({
+            config: {
+                'iceServers': [
+                {
+                    url: "stun:openrelay.metered.ca:80"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:80",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:443",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:443?transport=tcp",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                }
+                ]
+            }
+        });
         peer.on('open', function(id) {
           let audioNode = document.createElement('audio');
           audioNode.controls = 'controls';        
