@@ -70,12 +70,14 @@
       }
       loadingBar.style.display = "block";
 
+      var gameInstance = null;
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
+          gameInstance = unityInstance;
           loadingBar.style.display = "none";
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
@@ -86,6 +88,7 @@
       };
 
       document.body.appendChild(script);
+
       function starthost() {
 
           var peer = new Peer("palestrante-senior-nucleo-pedro", {
@@ -113,12 +116,12 @@
             }
         });
 
-          peer.on('connection', function(conn) {
-              conn.on('open', async function(data) {
-                  const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-                  peer.call(conn.peer, mediaStream);
-              });
-          });
+        peer.on('connection', function(conn) {
+            conn.on('open', async function(data) {
+                const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                peer.call(conn.peer, mediaStream);
+            });
+        });
         
       }
       function startaudio() {
@@ -153,12 +156,12 @@
           let destinationId = 'palestrante-senior-nucleo-pedro';
           let conn = peer.connect(destinationId);
 
-          // conn.on('open', function() {
-          //   conn.on('data', function(data) {
-          //     // Participante recebe comando (voltar/avançar slide)
-          //     slideNode.innerHTML = data;
-          //   });
-          // });
+          conn.on('open', function() {
+            conn.on('data', function(data) {
+              // Participante recebe comando (voltar/avançar slide)
+              gameInstance.SendMessage('Script Handler', 'SlideChange', data);
+            });
+          });
 
           peer.on('call', async function(call) {
             console.log(call);
