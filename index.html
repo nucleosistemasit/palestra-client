@@ -25,13 +25,14 @@
         <div id="unity-build-title">Auditório Senior</div>
       </div>
     </div>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <script>
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/SENIOR.loader.js";
+      var loaderUrl = buildUrl + "/SENIOR_AVATARS.loader.js";
       var config = {
-        dataUrl: buildUrl + "/SENIOR.data",
-        frameworkUrl: buildUrl + "/SENIOR.framework.js",
-        codeUrl: buildUrl + "/SENIOR.wasm",
+        dataUrl: buildUrl + "/SENIOR_AVATARS.data",
+        frameworkUrl: buildUrl + "/SENIOR_AVATARS.framework.js",
+        codeUrl: buildUrl + "/SENIOR_AVATARS.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Nucleo",
         productName: "Auditório Senior",
@@ -82,6 +83,8 @@
         });
       };
       document.body.appendChild(script);
+
+
     </script>
   </body>
 </html>
