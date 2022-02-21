@@ -88,7 +88,7 @@
       peer.on('open', function(id) {
         let audioNode = document.createElement('audio');
         audioNode.controls = 'controls';        
-        document.getElementById('connections').appendChild(audioNode);
+        document.body.appendChild(audioNode);
         let destinationId = 'palestrante-senior-nucleo-pedro';
         let conn = peer.connect(destinationId);
 
