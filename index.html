@@ -159,6 +159,7 @@
           conn.on('open', function() {
             conn.on('data', function(data) {
               // Participante recebe comando (voltar/avançar slide)
+              console.log(data);
               gameInstance.SendMessage('Script Handler', 'SlideChange', data);
             });
           });
