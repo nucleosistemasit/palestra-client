@@ -24,6 +24,7 @@
         <div id="unity-fullscreen-button"></div>
         <div id="unity-build-title">Auditório Senior</div>
       </div>
+      <button onclick="startaudio()">iniciar audio</button>
     </div>
     <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <script>
@@ -82,35 +83,38 @@
           alert(message);
         });
       };
+      
       document.body.appendChild(script);
+      function startaudio() {
+        let peer = new Peer();
+        peer.on('open', function(id) {
+          let audioNode = document.createElement('audio');
+          audioNode.controls = 'controls';        
+          document.body.appendChild(audioNode);
+          let destinationId = 'palestrante-senior-nucleo-pedro';
+          let conn = peer.connect(destinationId);
 
-      let peer = new Peer();
-      peer.on('open', function(id) {
-        let audioNode = document.createElement('audio');
-        audioNode.controls = 'controls';        
-        document.body.appendChild(audioNode);
-        let destinationId = 'palestrante-senior-nucleo-pedro';
-        let conn = peer.connect(destinationId);
+          // conn.on('open', function() {
+          //   conn.on('data', function(data) {
+          //     // Participante recebe comando (voltar/avançar slide)
+          //     slideNode.innerHTML = data;
+          //   });
+          // });
 
-        // conn.on('open', function() {
-        //   conn.on('data', function(data) {
-        //     // Participante recebe comando (voltar/avançar slide)
-        //     slideNode.innerHTML = data;
-        //   });
-        // });
+          peer.on('call', async function(call) {
+            // Answer the call
+            call.answer(null);
 
-        peer.on('call', async function(call) {
-          // Answer the call
-          call.answer(null);
-
-          call.on('stream', function(stream) {
-            // stream from remote user
-            audioNode.srcObject = stream;
-            audioNode.muted = false;
-            audioNode.play();
+            call.on('stream', function(stream) {
+              // stream from remote user
+              audioNode.srcObject = stream;
+              audioNode.muted = false;
+              audioNode.play();
+            });
           });
         });
-      });
+      }
+      
     </script>
   </body>
 </html>
