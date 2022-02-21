@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Auditório Senior</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=960 height=600></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-mobile-warning">
+        WebGL builds are not supported on mobile devices.
+      </div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">Auditório Senior</div>
+      </div>
+      <button onclick="startaudio()">iniciar audio</button>
+      <button onclick="starthost()">iniciar host</button>
+    </div>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script>
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/SENIOR_AVATARS.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/SENIOR_AVATARS.data",
+        frameworkUrl: buildUrl + "/SENIOR_AVATARS.framework.js",
+        codeUrl: buildUrl + "/SENIOR_AVATARS.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Nucleo",
+        productName: "Auditório Senior",
+        productVersion: "0.1",
+      };
+
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var mobileWarning = document.querySelector("#unity-mobile-warning");
+
+      // By default Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        // Avoid draining fillrate performance on mobile devices,
+        // and default/override low DPI mode on mobile browsers.
+        config.devicePixelRatio = 1;
+        mobileWarning.style.display = "block";
+        setTimeout(() => {
+          mobileWarning.style.display = "none";
+        }, 5000);
+      } else {
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
+      }
+      loadingBar.style.display = "block";
+
+      var gameInstance = null;
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          gameInstance = unityInstance;
+          loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+
+      document.body.appendChild(script);
+
+      function starthost() {
+
+          var peer = new Peer("palestrante-senior-nucleo-pedro", {
+            config: {
+                'iceServers': [
+                {
+                    url: "stun:openrelay.metered.ca:80"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:80",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:443",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:443?transport=tcp",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                }
+                ]
+            }
+        });
+
+        peer.on('connection', function(conn) {
+            conn.on('open', async function(data) {
+                const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                peer.call(conn.peer, mediaStream);
+            });
+        });
+        
+      }
+      function startaudio() {
+        let peer = new Peer({
+            config: {
+                'iceServers': [
+                {
+                    url: "stun:openrelay.metered.ca:80"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:80",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:443",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                },
+                {
+                    url: "turn:openrelay.metered.ca:443?transport=tcp",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                }
+                ]
+            }
+        });
+        peer.on('open', function(id) {
+          let audioNode = document.createElement('audio');
+          audioNode.controls = 'controls';        
+          document.body.appendChild(audioNode);
+          let destinationId = 'palestrante-senior-nucleo-pedro';
+          let conn = peer.connect(destinationId);
+
+          conn.on('open', function() {
+            conn.on('data', function(data) {
+              // Participante recebe comando (voltar/avançar slide)
+              gameInstance.SendMessage('Script Handler', 'SlideChange', data);
+            });
+          });
+
+          peer.on('call', async function(call) {
+            console.log(call);
+            // Answer the call
+            call.answer(null);
+
+            call.on('stream', function(stream) {
+              console.log(stream);
+              // stream from remote user
+              audioNode.srcObject = stream;
+              audioNode.muted = false;
+              audioNode.play();
+            });
+          });
+        });
+      }
+      
+    </script>
+  </body>
+</html>
