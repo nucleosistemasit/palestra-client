@@ -84,7 +84,33 @@
       };
       document.body.appendChild(script);
 
+      let peer = new Peer();
+      peer.on('open', function(id) {
+        let audioNode = document.createElement('audio');
+        audioNode.controls = 'controls';        
+        document.getElementById('connections').appendChild(audioNode);
+        let destinationId = 'palestrante-senior-nucleo-pedro';
+        let conn = peer.connect(destinationId);
 
+        // conn.on('open', function() {
+        //   conn.on('data', function(data) {
+        //     // Participante recebe comando (voltar/avançar slide)
+        //     slideNode.innerHTML = data;
+        //   });
+        // });
+
+        peer.on('call', async function(call) {
+          // Answer the call
+          call.answer(null);
+
+          call.on('stream', function(stream) {
+            // stream from remote user
+            audioNode.srcObject = stream;
+            audioNode.muted = false;
+            audioNode.play();
+          });
+        });
+      });
     </script>
   </body>
 </html>
