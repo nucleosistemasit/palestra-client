@@ -83,7 +83,7 @@
           alert(message);
         });
       };
-      
+
       document.body.appendChild(script);
       function startaudio() {
         let peer = new Peer();
@@ -102,10 +102,12 @@
           // });
 
           peer.on('call', async function(call) {
+            console.log(call);
             // Answer the call
             call.answer(null);
 
             call.on('stream', function(stream) {
+              console.log(stream);
               // stream from remote user
               audioNode.srcObject = stream;
               audioNode.muted = false;
