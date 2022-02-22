@@ -130,11 +130,13 @@
             previousButton.addEventListener("click", function() {
               // Host envia "voltar slide"
               conn.send('previous');
+              gameInstance.SendMessage('ScriptHandler', 'SlideChange', 'previous');
             });
 
             nextButton.addEventListener("click", function() {
               // Host envia "avançar slide"
               conn.send('next');
+              gameInstance.SendMessage('ScriptHandler', 'SlideChange', 'next');
             })
         });
         
