@@ -6,6 +6,7 @@
     <title>Unity WebGL Player | Auditório Senior</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -74,6 +75,7 @@
 
       var gameInstance = null;
       var script = document.createElement("script");
+      var slideIndex = 0;
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
@@ -122,6 +124,7 @@
             conn.on('open', async function(data) {
                 const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
                 peer.call(conn.peer, mediaStream);
+                conn.send(slideIndex);                
             });
 
             const previousButton = document.getElementById("previous-slide");
@@ -131,12 +134,16 @@
               // Host envia "voltar slide"
               conn.send('previous');
               gameInstance.SendMessage('ScriptHandler', 'SlideChange', 'previous');
+              if (slideIndex > 0){
+                slideIndex--;
+              }
             });
-
+            
             nextButton.addEventListener("click", function() {
               // Host envia "avançar slide"
               conn.send('next');
               gameInstance.SendMessage('ScriptHandler', 'SlideChange', 'next');
+              slideIndex++;
             })
         });
         
@@ -177,7 +184,7 @@
             conn.on('data', function(data) {
               // Participante recebe comando (voltar/avançar slide)
               console.log(data);
-              gameInstance.SendMessage('ScriptHandler', 'SlideChange', data);
+              gameInstance.SendMessage('ScriptHandler', 'SlideChange', data);              
             });
           });
 
