@@ -20,10 +20,59 @@
     background-color: white;
 }
 
+#visitante-picture {
+    border-radius: 50%;
+}
+
+#local-peer-name {
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
 .side-panel {
     width: 30vw;
+    left: 0;
     position: absolute;
     height: 100vh;
+    transition: left 0.8s cubic-bezier(0, 0, 0, 1);
+}
+
+.side-panel-toggle {
+    position: absolute;
+    top: 20px;
+    right: -25px;
+    padding: 10px;
+    text-align: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #f0f2f9;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.side-panel-closed {
+    left: -30vw;
+    /* width: 0vw; */
+}
+
+#unity-container.unity-desktop.unity-fullscreen {
+    width: 100vw;
+    right: 0%;
+    top: 0%;
+    left: initial;
+    transform: translate(0%, 0%);
+    z-index: -5;
+    transition: width 0.8s cubic-bezier(0, 0, 0, 1);
+}
+
+#unity-canvas.unity-fullscreen {
+    width: 100vw;
+    right: 0%;
+    top: 0%;
+    left: initial;
+    transform: translate(0%, 0%);
+    z-index: -5;
+    transition: width 0.8s cubic-bezier(0, 0, 0, 1);
 }
 
 .form-label {
@@ -86,10 +135,12 @@ audio {
 .chat.chat-client {
     display: inline-block;
     height: calc(100% - 230px);
-    width: calc(100% + 12px);
+    width: calc(100% + 24px);
     padding-bottom: 30px;
+    padding-top: 20px;
     overflow-y: auto;
     OVERFLOW-X: hidden;
+    background-color: white;
 }
 
 .chat p {
@@ -99,11 +150,15 @@ audio {
     min-height: 35px;
     height: auto;
     width: auto;
-    top: 25px;
     padding: 5px 10px;
-    margin: 0px 100% 10px 10px;
     background-color: #f0f0f0;
     border-radius: 5px;
+}
+
+.chat .msg-container {
+    display: inline-block;
+    width: 100%;
+    padding-left: 20px;
 }
 
 .chat p::before {
@@ -111,12 +166,11 @@ audio {
     width: 10px;
     height: 10px;
     position: absolute;
-    left: -3px;
-    top: -6px;
+    left: -10px;
+    top: 0px;
     border-style: solid;
-    border-width: 10px 15px 10px 0;
-    border-color: transparent #f0f0f0 transparent transparent;
-    transform: rotateZ(145deg);
+    border-width: 15px 15px 15px 15px;
+    border-color: #f0f0f0 transparent transparent transparent;
 }
 
 .chat p.p-entered-chat {
@@ -138,15 +192,111 @@ audio {
 .chat p.p-messaged-chat {
     margin-top: 35px;
     left: 30px;
-    WIDTH: max-content;
+    width: max-content;
     max-width: 80%;
+    overflow-wrap: break-word;
+    margin-bottom: 5px;
 }
 
-.chat strong {
+/* .chat strong {
     position: absolute;
     top: -30px;
     width: 300px;
     color: #5c5c5c;
+} */
+
+.chat p.p-messaged-chat .msg-timestamp {
+    float: right;
+    font-size: 9pt;
+    color: #888;    
+}
+
+.chat p.p-entered-chat::before {
+    content: "";
+    background-color: #4de113;
+    border: none;
+    border-radius: 5px;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    left: -3px;
+    top: -3px;    
+}
+
+.chat .mod-msg {
+    padding: 10px 0 10px 12px;
+    border-left: 5px solid #69dfb6;
+    background-color: #c3f1e1;
+    margin-left: 3px;
+    border-radius: 5px;
+}
+
+.chat .mod-msg .p-messaged-chat {
+    background-color: white;
+}
+
+.chat .mod-msg .p-messaged-chat::before {
+    border-color: white transparent transparent transparent;
+}
+
+.message-block {
+    padding: 0;
+}
+
+#scrollToBottomBtn {
+    position: absolute;
+    background-color: white;
+    border-radius: 35%;
+    border: 2px solid #e3e3e3;
+    cursor: pointer;
+    padding: 10px 12px;
+    bottom: 90px;
+    right: 20px;
+    opacity: 1;
+    transition: opacity 0.5s, bottom 0.5s, scale 0.5s, color 0.3s; 
+}
+
+#scrollToBottomBtn.btn-off {
+    opacity: 0;
+    bottom: 0px;
+    transition: opacity 0.5s, bottom 0.5s, scale 0.5s, color 0.3s; 
+}
+
+.scroll-to-bottom-btn {
+    padding: 0;
+}
+
+.msg-reactions {
+    display: block;
+    margin-top: 5px;
+}
+
+.msg-reactions .reaction {
+    display: none;
+    /* height: 25px; */
+    min-width: 40px;
+    border: 1px solid #5c5c5c;
+    border-radius: 7px;
+    font-style: normal;
+    margin-right: 5px;
+    background-color: transparent;
+    text-align: left;
+    padding: 2px;
+    padding-left: 8px;
+    padding-right: 8px;    
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.msg-reactions .reaction.sent {
+    color: #69aab5;
+    border-color: #69aab5;
+    background-color: #69dfb636;
+    border-width: 2px;
+}
+
+.msg-reactions .reaction.visible {
+    display: inline-block;
 }
 
 .chat strong.s-entered-chat {
@@ -156,6 +306,128 @@ audio {
 
 .chat strong.s-messaged-chat {
     left: -30px;
+}
+
+/* width */
+.chat::-webkit-scrollbar {
+    width: 10px;
+    right: 0px;
+}
+
+/* Track */
+.chat::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+.chat::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.chat::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.p-messaged-chat .msg-menu {
+    display: none;
+}
+
+.p-messaged-chat:hover .msg-menu {
+    position: absolute;
+    display: inline-block;
+    width: 60px;
+    height: 25px;
+    right: -30px;
+    bottom: -10px;
+    background-color: #e3e3e3;
+    border-radius: 5px;
+}
+
+.msg-menu .menu-reply {
+    position: absolute;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    left: 5px;
+    cursor: pointer;
+}
+
+.msg-menu .menu-reactions {
+    position: absolute;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    left: 30px;
+    background-color: #e3e3e3;
+    border-radius: 10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scroll-behavior: 25px;
+    cursor: pointer;
+}
+
+.p-messaged-chat:hover .menu-reactions:hover {
+    height: 125px;
+    width: 30px;
+    padding: 5px 0;
+    top: -55px;
+    text-align: center;
+}
+
+.menu-reactions:hover .reaction {
+    width: 25px;
+}
+
+.menu-reactions::-webkit-scrollbar {
+   width: 0;
+}
+
+.menu-reactions .reaction {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+}
+
+.reply-chat {    
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px 10px 5px 10px;
+    font-size: 10pt;
+    color: #707070;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.s-reply-chat {
+    font-size: 9pt;
+    padding-left: 10px;
+    color: #707070;
+}
+
+.s-reply-preview {
+    display: block;
+    font-size: 9pt;
+    color: #707070;
+}
+
+.chat strong.s-entered-chat {
+    position: initial;
+    top: initial;
+}
+
+.chat strong.s-messaged-chat {
+    position: absolute;
+    width: 300px;
+    top: -30px;
+    left: -30px;
+    color: #5c5c5c;
 }
 
 /* width */
@@ -203,6 +475,38 @@ audio {
     outline: none;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
+    z-index: 1;
+}
+
+.reply-preview {
+    position: absolute;
+    display: inline-block;
+    width: calc(100% - 10px);
+    height: 75px;
+    bottom: 80px;
+    left: 0;
+    background-color: #e3e3e3;
+    padding: 5px;
+    z-index: 0;
+    transition: bottom 0.5s;
+}
+
+.reply-preview.reply-off {
+    bottom: 0;
+    transition: bottom 0.5s;
+}
+
+.reply-preview .reply-chat {
+    font-size: 9pt;
+    margin: 0;
+    background-color: #e3e3e3;
+}
+
+.reply-preview .reply-close {
+    float: right;
+    cursor: pointer;
+    margin-right: 5px;
+    font-size: 9pt;
 }
 
 .btn-send-msg {
@@ -211,4 +515,36 @@ audio {
     border-radius: 0;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+
+.fas, .svg-inline--fa {
+    color: #69aab5;
+    transition: scale 0.5s, color 0.3s;
+}
+
+
+.fas:hover, .svg-inline--fa:hover {
+    color: #69dfb6;
+    transition: scale 0.5s, color 0.3s;
+}
+
+.side-panel .side-panel-toggle:hover .fas {
+    color: #69dfb6;
+}
+
+.side-panel .side-panel-toggle .fa-angle-left {
+    transition: transform 0.5s, color 0.3s, scale 0.3s;
+    transform: scaleX(1);
+}
+
+.side-panel-closed .side-panel-toggle .fa-angle-left {
+    transform: scaleX(-1);
+}
+
+.btn-send-msg:hover .fas {
+    color: #69dfb6;
+    transition: color 0.3s;
 }
