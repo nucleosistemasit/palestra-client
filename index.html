@@ -15,18 +15,16 @@
       <div class="side-panel-toggle" onclick="toggleChat()"><i class="fas fa-angle-left"></i></div>
       <div class="banner row"></div>
       <div class="row dash-name">  
-        <!-- <div class="col-2">
-          <img id="host-picture" width="28px" height="28px">
-        </div>-->
-        <!-- <div class="col-4">
+        <div class="col-4">
           <img id="host-picture" width="28px" height="28px">
           <input id="picture-input" type="file"/>
           <button id="delete-picture">X</button>
-        </div> -->
+        </div>
         <input id="local-peer-name" class="col-5 input-group-text type-msg" placeholder="Digite seu nome..." />
         <button id="connect-peer" class="col-3 btn btn-primary btn-enter" disabled>Entrar</button>
       </div>
-      <div id="chat" class="chat row chat-client">	
+      <div id="chat" class="chat row chat-client">
+        <span class="scroll-to-bottom-btn"><i id="scrollToBottomBtn" class="fas fa-caret-down"></i></span>	
       </div>
       <div id="replyPreview" class="reply-preview reply-off" data-id="">
         <strong id="sReplyChat" class="s-reply-chat"></strong>

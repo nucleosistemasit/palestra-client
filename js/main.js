@@ -45,6 +45,7 @@ var slideIndex = 0;
 const socket = io.connect('https://tecnicaspedagogicas.com.br:443');
 var producer = null;
 var rc = null;
+var current_page = 1;
 var chatSocket = null;
 script.src = loaderUrl;
 script.onload = () => {
@@ -117,10 +118,26 @@ function makeid(length) {
     return result;
 }
 
+function sendReply(element) {
+    let reply_preview = document.getElementById("replyPreview");
+    let reply_chat = document.getElementById("replyChat");
+    let reply_s_chat = document.getElementById("sReplyChat");
+
+    let id = element.closest('.msg-container').dataset.id;
+    let content = element.closest('.p-messaged-chat').querySelector('.msg-content').textContent;
+    let name = element.closest('.p-messaged-chat').querySelector('.s-messaged-chat').textContent;
+
+    reply_preview.classList.remove("reply-off");
+    reply_chat.innerHTML = content;
+    reply_s_chat.innerHTML = name;
+    reply_preview.dataset.id = id;
+}
+
 function closeReply() {
     document.getElementById("replyPreview").dataset.id = "";
     document.getElementById("replyPreview").classList.add("reply-off");
 }
+
 
 function loadNextPage(event) {
     let chatContainer = document.getElementById("chat");
@@ -188,24 +205,22 @@ function printMessage (data, messageBlock, scrollToBottom) {
                                 '</span>' +
                             '</span>';
         let reactionNode = '';
-        let visible_1 = data.reaction_1 > 0 ? "visible" : "";
-        let sent_1 = data.sent_reactions.includes(1) ? "sent" : "";
-        reactionNode += '<span class="reaction ' + sent_1 + ' ' + visible_1 + '" data-reaction="1" onclick="toggleReaction(this)">👍<span class="react-quantity">' + data.reaction_1 + '</span></span>';
-        let visible_2 = data.reaction_2 > 0 ? "visible" : "";
-        let sent_2 = data.sent_reactions.includes(2) ? "sent" : "";
-        reactionNode += '<span class="reaction ' + sent_2 + ' ' + visible_2 + '" data-reaction="2" onclick="toggleReaction(this)">👏<span class="react-quantity">' + data.reaction_2 + '</span></span>';
-        let visible_3 = data.reaction_3 > 0 ? "visible" : "";
-        let sent_3 = data.sent_reactions.includes(3) ? "sent" : "";
-        reactionNode += '<span class="reaction ' + sent_3 + ' ' + visible_3 + '" data-reaction="3" onclick="toggleReaction(this)">❤<span class="react-quantity">' + data.reaction_3 + '</span></span>';
-        let visible_4 = data.reaction_4 > 0 ? "visible" : "";
-        let sent_4 = data.sent_reactions.includes(4) ? "sent" : "";
-        reactionNode += '<span class="reaction ' + sent_4 + ' ' + visible_4 + '" data-reaction="4" onclick="toggleReaction(this)">🙌<span class="react-quantity">' + data.reaction_4 + '</span></span>';
-        let visible_5 = data.reaction_5 > 0 ? "visible" : "";
-        let sent_5 = data.sent_reactions.includes(5) ? "sent" : "";
-        reactionNode += '<span class="reaction ' + sent_5 + ' ' + visible_5 + '" data-reaction="5" onclick="toggleReaction(this)">😮<span class="react-quantity">' + data.reaction_5 + '</span></span>';
-        let visible_6 = data.reaction_6 > 0 ? "visible" : "";
-        let sent_6 = data.sent_reactions.includes(6) ? "sent" : "";
-        reactionNode += '<span class="reaction ' + sent_6 + ' ' + visible_6 + '" data-reaction="6" onclick="toggleReaction(this)">🤣<span class="react-quantity">' + data.reaction_6 + '</span></span>';
+        
+        let reaction_types = ['1', '2', '3', '4', '5', '6'];
+        let reaction_emojis = ['👍', '👏', '❤', '🙌', '😮', '🤣'];
+        for (let reaction_type of reaction_types) {
+            let reaction_visible = "";
+            let reaction_sent = "";
+            let reaction_quantity = 0;
+            if (data["reaction_" + reaction_type] != null) {
+                reaction_quantity = data["reaction_" + reaction_type];
+                reaction_visible = data["reaction_" + reaction_type] > 0 ? "visible" : "";
+            }
+            if (data.sent_reactions != null) {
+                reaction_sent = data.sent_reactions.includes(parseInt(reaction_type)) ? "sent" : "";
+            }
+            reactionNode += '<span class="reaction ' + reaction_sent + ' ' + reaction_visible + '" data-reaction="' + reaction_type + '" onclick="toggleReaction(this)">' + reaction_emojis[parseInt(reaction_type) - 1] + '<span class="react-quantity">' + reaction_quantity + '</span></span>';
+        }
         
         peerNode.innerHTML = '<p class="p-messaged-chat"><strong class="s-messaged-chat">' + 
                                 escapeHtml(data.username) + 
@@ -260,16 +275,6 @@ chatSocket.onmessage = function(e) {
             setInfiniteScroll();
         }
     }
-    // else if (data.type == 'chat') {
-    //     if (data.content != null && data.content.trim() !== '') {
-    //     let peerNode = document.createElement('p');
-    //     let messageUser = data.name || 'Palestrante';
-    //     peerNode.className = "p-messaged-chat";
-    //     peerNode.innerHTML = '<strong class="s-messaged-chat">' + escapeHtml(messageUser) + '</strong> ' + linkifyHtml(escapeHtml(data.content), {target: '_blank'});
-    //     document.getElementById('chat').appendChild(peerNode);
-    //     document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
-    //     }
-    // }
     else if (data.type == 'chat_reaction') {
         let messageElement = document.querySelector('.msg-container[data-id="' + data.message + '"]');
         if (messageElement != null) {
@@ -294,27 +299,14 @@ chatSocket.onmessage = function(e) {
             }
         }
     }
-    // else if (data.type == 'command' && typeof data.content === 'string') {                
-    //     // Call Unity function						
-    //     // Participante recebe comando (voltar/avançar slide)
-    //     gameInstance.SendMessage('ScriptHandler', 'SlideChange', data.content);                 
-    // }              
-    // else {
-    //     if (data.name == 'changeHost') {
-    //     gameInstance.SendMessage('ScriptHandler', 'WhichPalestranteWillTalk', data.content);
-    //     }
-    //     else if (data.name == 'slideSet') {
-    //     gameInstance.SendMessage('ScriptHandler', 'SlideSet', data.content);
-    //     }
-    // }
     else if (data.type == 'chat_control') {
-        if (data.name != null && data.name == 'slideChange'){
+        if (data.name != null && data.name == 'slideChange') {
             gameInstance.SendMessage('ScriptHandler', 'SlideChange', data.content);
         }
-        else if (data.name != null && data.name == 'changeHost'){
+        else if (data.name != null && data.name == 'changeHost') {
             gameInstance.SendMessage('ScriptHandler', 'WhichPalestranteWillTalk', data.content);
         }
-        else if (data.name != null && data.name == 'slideSet'){
+        else if (data.name != null && data.name == 'slideSet') {
             gameInstance.SendMessage('ScriptHandler', 'SlideSet', data.content);
         }
     }
@@ -325,36 +317,7 @@ chatSocket.onmessage = function(e) {
         if (data.profile_picture != null) {
             document.getElementById("host-picture").src = data.profile_picture;
         }
-        if (data.permissions.includes('chat.can_control_presentation_slides')) {
-            document.getElementById("slide-header").style.display = '';
-            document.getElementById("previous-slide").style.display = '';
-            document.getElementById("next-slide").style.display = '';
-
-            var loopInterval = setInterval(function() {
-                chatSocket.send(JSON.stringify({"command": "control", content: slideIndex, name: 'slideSet'}));
-                chatSocket.send(JSON.stringify({"command": "control", content: hostIndex, name: 'changeHost'}));
-            }, 5000);
-        }
-    }
-    else if (data.type == 'chat_connection') {
-        connectionCount++;
-        document.getElementById('conexoes').innerHTML = connectionCount;
-        let peerNode = document.createElement('p');
-        peerNode.className = "p-entered-chat";
-        peerNode.innerHTML = '<strong class="s-entered-chat">' + escapeHtml(data.username) + '</strong> entrou na sala.';
-        document.getElementById('chat').appendChild(peerNode);
-        document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
-    }
-    else if (data.type == 'chat_disconnection') {
-        connectionCount--;
-        document.getElementById('conexoes').innerHTML = connectionCount;
-        let peerNode = document.createElement('p');
-        peerNode.className = "p-exited-chat";
-        peerNode.innerHTML = '<strong class="s-exited-chat">' + escapeHtml(data.username) + '</strong> saiu da sala.';
-        document.getElementById('chat').appendChild(peerNode);
-        document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
-        }
-    };
+    }};
 
 chatSocket.onclose = function(e) {
     chatSocket.send(JSON.stringify({type: 'disconnection', name: document.getElementById('local-peer-name').value}))
@@ -371,19 +334,6 @@ function startaudio() {
         rc = new RoomClient(null, null, document.body, window.mediasoupClient, socket,
         'metaversosul-nucleo-1', 'metaversosul-nucleo-1-' + makeid(64), function(){});
     }
-
-    document.getElementById("send-message").addEventListener("click", function() {
-        // Send message
-        let messageTextarea = document.getElementById('message-content');
-        let messageContent = messageTextarea.value;
-
-        if (messageContent != null && messageContent.trim() !== '') {
-        chatSocket.send(JSON.stringify({type: 'chat', content: messageContent, name: document.getElementById('local-peer-name').value}));
-
-        // Clear textarea
-        messageTextarea.value = '';
-        }
-    });
 
     const sendButton = document.getElementById("send-message");
 
@@ -410,65 +360,16 @@ function startaudio() {
         sendButton.click();
     }
     });
-  
-    const previousButton = document.getElementById("previous-slide");
-    const nextButton = document.getElementById("next-slide");
-    const palestrante1 = document.getElementById("palestrante-1");
-    const palestrante2 = document.getElementById("palestrante-2");
-    const palestrante3 = document.getElementById("palestrante-3");
-    const palestrante4 = document.getElementById("palestrante-4");
-    const stopTalk = document.getElementById("stopTalk");
-    const exportCSV = document.getElementById("download-csv");
+
     const pictureInput = document.getElementById("picture-input");
     const deletePicture = document.getElementById("delete-picture");
-
-    palestrante1.addEventListener("click", function() {
-        hostIndex = 0;
-        chatSocket.send(JSON.stringify({"command": "control", content: 0, name: 'changeHost'}));
-    });
-
-    palestrante2.addEventListener("click", function() {
-        hostIndex = 1;
-        chatSocket.send(JSON.stringify({"command": "control", content: 1, name: 'changeHost'}));
-    });
-
-    palestrante3.addEventListener("click", function() {
-        hostIndex = 2;
-        chatSocket.send(JSON.stringify({"command": "control", content: 2, name: 'changeHost'}));
-    });
-
-    palestrante4.addEventListener("click", function() {
-        hostIndex = 3;
-        chatSocket.send(JSON.stringify({"command": "control", content: 3, name: 'changeHost'}));
-    });
-
-    stopTalk.addEventListener("click", function() {
-        hostIndex = -1;
-        chatSocket.send(JSON.stringify({"command": "control", content: -1, name: 'changeHost'}));
-    });
-
-    exportCSV.addEventListener("click", function() {
-        const url = 'http://127.0.0.1:8000/api/export-chat/';
-        const authHeader = 'Bearer ' + localStorage.getItem('authToken');
-        const options = {
-            headers: {
-                Authorization: authHeader
-            }
-        };
-        fetch(url, options)
-            .then( res => res.blob() )
-            .then( blob => {
-                let file = window.URL.createObjectURL(blob);
-                window.location.assign(file);
-            });
-    });
 
     pictureInput.addEventListener("change", function(event) {
         if (event.target.files && event.target.files[0]) {
             const formData = new FormData();
             formData.append('profile_picture', event.target.files[0]);
             const url = 'http://127.0.0.1:8000/api/profile-picture/';
-            const authHeader = 'Bearer ' + localStorage.getItem('authToken');
+            const authHeader = 'Bearer ' + localStorage.getItem('clientToken');
             const options = {
                 method: "POST",
                 headers: {

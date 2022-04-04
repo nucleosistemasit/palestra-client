@@ -17,7 +17,7 @@ function toggleChat () {
 /* Botão de scroll até o fim do chat */
 //
 
-var scrollToTopBtn = document.getElementById("scrollToBottomBtn");
+var scrollToBottomBtn = document.getElementById("scrollToBottomBtn");
 var chatDiv = document.getElementById("chat");
 var scrollPosition = chatDiv.scrollTop;
 var maxY = chatDiv.scrollHeight;
@@ -32,7 +32,7 @@ chatDiv.scrollTo({
 });  
 }
 
-scrollToTopBtn.addEventListener("click", scrollToBottom);
+scrollToBottomBtn.addEventListener("click", scrollToBottom);
 
 //
 /* Esconde o botão quando já estiver no final do chat*/
@@ -46,8 +46,8 @@ maxY = chatDiv.scrollHeight;
 scrollPosition = chatDiv.scrollTop;
 
 if (scrollPosition > (maxY/1.5)){
-    scrollToTopBtn.classList.add("btn-off"); 
+  scrollToBottomBtn.classList.add("btn-off"); 
   } else {
-    scrollToTopBtn.classList.remove("btn-off"); 
+    scrollToBottomBtn.classList.remove("btn-off"); 
   }
 };
