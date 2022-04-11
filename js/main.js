@@ -263,6 +263,9 @@ chatSocket.onmessage = function(e) {
             document.getElementById("local-peer-name").value = data.username;
             startaudio();
         }
+        if (data.profile_picture != null) {
+            document.getElementById("host-picture").style.backgroundImage = "url(" + data.profile_picture + ")";
+        }
     }
     else if (data.type == 'chat_message') {
         let messageBlock = document.getElementById('chat');
@@ -384,13 +387,9 @@ function startaudio() {
         if (event.target.files && event.target.files[0]) {
             const formData = new FormData();
             formData.append('profile_picture', event.target.files[0]);
-            const url = 'http://127.0.0.1:8000/api/profile-picture/';
-            const authHeader = 'Bearer ' + localStorage.getItem('clientToken');
+            const url = 'http://127.0.0.1:8000/api/client-picture/' + localStorage.getItem('clientToken') + '/';
             const options = {
                 method: "POST",
-                headers: {
-                    Authorization: authHeader
-                },
                 body: formData
             };
             fetch(url, options)
@@ -403,13 +402,9 @@ function startaudio() {
     });
 
     deletePicture.addEventListener("click", function() {
-        const url = 'http://127.0.0.1:8000/api/profile-picture/';
-        const authHeader = 'Bearer ' + localStorage.getItem('authToken');
+        const url = 'http://127.0.0.1:8000/api/client-picture/' + localStorage.getItem('clientToken') + '/';
         const options = {
             method: "DELETE",
-            headers: {
-                Authorization: authHeader
-            }
         };
         fetch(url, options)
             .then( res => {
