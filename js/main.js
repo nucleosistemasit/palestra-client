@@ -171,7 +171,8 @@ if (clientToken == null) {
     clientToken = newToken;
 }
 
-chatSocket = new ReconnectingWebSocket('ws://127.0.0.1:8000/ws/chat/talk/?clientToken=' + clientToken);
+chatSocket = new ReconnectingWebSocket('wss://metaversochat.youbot.us/ws/chat/talk/?clientToken=' + clientToken);
+// chatSocket = new ReconnectingWebSocket('ws://127.0.0.1:8000/ws/chat/talk/?clientToken=' + clientToken);
 
 chatSocket.onopen = function(e) {
     document.getElementById("chat").removeEventListener("scroll", loadNextPage);
