@@ -174,6 +174,9 @@ if (clientToken == null) {
 chatSocket = new ReconnectingWebSocket('ws://127.0.0.1:8000/ws/chat/talk/?clientToken=' + clientToken);
 
 chatSocket.onopen = function(e) {
+    document.getElementById("chat").removeEventListener("scroll", loadNextPage);
+    current_page = 1;
+    document.getElementById("chat").innerHTML = "";
 };
 
 function printMessage (data, messageBlock, scrollToBottom) {
@@ -194,20 +197,21 @@ function printMessage (data, messageBlock, scrollToBottom) {
         }
         peerNode.classList.add('msg-container');
         let messageMenu = '<span id="messageMenu" class="msg-menu">' +
-                                '<span id="replyMenu-' + data.id + '" class="menu-reply" onclick="sendReply(this)">⬅</span>' +      
+                                '<span id="replyMenu-' + data.id + '" class="menu-reply" onclick="sendReply(this)"><i class="fa-solid fa-reply"></i></span>' +      
                                 '<span id="reactionMenu-' + data.id + '" class="menu-reactions">' +
-                                '<span class="reaction-menu" data-reaction="1" onclick="toggleReaction(this)">👍</span>' +
-                                '<span class="reaction-menu" data-reaction="2" onclick="toggleReaction(this)">👏</span>' +
-                                '<span class="reaction-menu" data-reaction="3" onclick="toggleReaction(this)">❤</span>' +
-                                '<span class="reaction-menu" data-reaction="4" onclick="toggleReaction(this)">🙌</span>' +
-                                '<span class="reaction-menu" data-reaction="5" onclick="toggleReaction(this)">😮</span>' +
-                                '<span class="reaction-menu" data-reaction="6" onclick="toggleReaction(this)">🤣</span>' +
+                                '<span class="reaction" data-reaction="1" onclick="toggleReaction(this)">👍</span>' +
+                                '<span class="reaction" data-reaction="2" onclick="toggleReaction(this)">👏</span>' +
+                                '<span class="reaction" data-reaction="3" onclick="toggleReaction(this)">❤</span>' +
+                                '<span class="reaction" data-reaction="4" onclick="toggleReaction(this)">🙌</span>' +
+                                '<span class="reaction" data-reaction="5" onclick="toggleReaction(this)">😮</span>' +
+                                '<span class="reaction" data-reaction="6" onclick="toggleReaction(this)">🤣</span>' +
                                 '</span>' +
                             '</span>';
-        let reactionNode = '';
-        
+
+        let reactionNode = '';        
         let reaction_types = ['1', '2', '3', '4', '5', '6'];
         let reaction_emojis = ['👍', '👏', '❤', '🙌', '😮', '🤣'];
+
         for (let reaction_type of reaction_types) {
             let reaction_visible = "";
             let reaction_sent = "";
@@ -236,9 +240,10 @@ function printMessage (data, messageBlock, scrollToBottom) {
                                 messageMenu +
                                 '</p>' +
                               '</span>';
+        let isOnBottom = Math.abs(document.getElementById('chat').scrollHeight - document.getElementById('chat').scrollTop - document.getElementById('chat').clientHeight) < 10;
         messageBlock.appendChild(peerNode);
         if (scrollToBottom) {
-            if (data.from_me) {
+            if (data.from_me || isOnBottom) {
                 document.getElementById('chat').scrollTop = document.getElementById('chat').scrollHeight;
             }
         }
@@ -309,13 +314,24 @@ chatSocket.onmessage = function(e) {
         else if (data.name != null && data.name == 'slideSet') {
             gameInstance.SendMessage('ScriptHandler', 'SlideSet', data.content);
         }
+        else if (data.name != null && data.name == 'toggleMic') {
+            if (data.content) {
+
+            }
+            else {
+
+            }
+        }
     }
     else if (data.type == 'chat_start') {
         if (data.username != null) {
             document.getElementById("host-name").textContent = data.username;
         }
         if (data.profile_picture != null) {
-            document.getElementById("host-picture").src = data.profile_picture;
+            document.getElementById("profile-picture").style.backgroundImage = "url(" + data.profile_picture + ")";
+        }
+        else {
+            document.getElementById("profile-picture").style.backgroundImage = "url(css/imgs/default_pic.jpg)";
         }
     }};
 
@@ -380,7 +396,7 @@ function startaudio() {
             fetch(url, options)
                 .then( res => res.json() )
                 .then( response_json => {
-                    document.getElementById("host-picture").src = response_json.profile_picture;
+                    document.getElementById("profile-picture").style.backgroundImage = "url(" + response_json.profile_picture + ")";
                     event.target.value = "";
                 });
         }
@@ -397,7 +413,7 @@ function startaudio() {
         };
         fetch(url, options)
             .then( res => {
-                document.getElementById("host-picture").src = "";
+                document.getElementById("profile-picture").style.backgroundImage = "url(css/imgs/default_pic.jpg)";
             });
     });
 }

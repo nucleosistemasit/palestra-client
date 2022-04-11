@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+}
+
 #unity-container.unity-desktop {
     height: 100vh;
     width: 70vw;
@@ -5,6 +9,16 @@
     top: 0%;
     left: initial;
     transform: translate(0%, 0%);
+    z-index: -5;
+    transition: width 0.8s cubic-bezier(0, 0, 0, 1);
+}
+
+#unity-loading-bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
 }
 
 #unity-canvas {
@@ -20,8 +34,73 @@
     background-color: white;
 }
 
-#visitante-picture {
+#profile-picture {
     border-radius: 50%;
+}
+
+.profile-picture {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.picture-menu {
+    position: relative;
+    top: -21px;
+    left: -18px;
+    margin-top: 20px;
+    width: fit-content;
+    background-color: #e3e3e3;
+    border-radius: 5px;
+    z-index: 999;
+}
+
+.picture-menu input[type="file"],
+.picture-menu .delete-picture {
+    display: none;
+}
+
+.picture-menu-closed {
+    display: none;
+}
+
+.profile-picture:hover .picture-menu {
+    display: inline-block;
+}
+
+.picture-menu input[type="file"], .picture-menu .delete-picture {
+    display: none;
+}
+
+.picture-input-label, 
+.picture-delete-label {
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #e3e3e3;
+    cursor: pointer;
+    display: block;
+}
+
+.profile-picture:hover {
+    background: rgb(0,0,0,0.5) !important;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.profile-picture:hover::before {
+    content: "\f303";
+    color: white;
+    font-family: FontAwesome;
+    font-size: 10pt;
+    line-height: 2;
+    position: relative;
+    top: 1px;
+    left: 0px;
 }
 
 #local-peer-name {
@@ -32,6 +111,7 @@
 .side-panel {
     width: 30vw;
     left: 0;
+    top: 0;
     position: absolute;
     height: 100vh;
     transition: left 0.8s cubic-bezier(0, 0, 0, 1);
@@ -98,7 +178,7 @@ audio {
 }
 
 .dash-name {
-    padding: 7px 0;
+    padding: 10px 0;
     vertical-align: middle;
     background-color: #e3e3e3;
 }
@@ -115,14 +195,27 @@ audio {
     background: none;
     border: none;
     border-radius: 0px;
+    padding: 0;
 }
 
 .dash-name .btn-enter {
-    color: #5c5c5c;
-    background-color: #e3e3e3;
+    color: white;
+    background-color: #69aab5;
     border: none;
-    border-radius: 0;
+    border-radius: 5px;
+    padding: 0;
 }
+
+.dash-name .btn-enter:hover {
+    color: white;
+    background-color: #69dfb6;
+}
+
+.dash-name .btn-enter:disabled {
+    color: rgb(175, 175, 175);
+    background-color: #e3e3e3;
+}
+
 
 .dash-container {
     max-height: 50%;
@@ -134,10 +227,10 @@ audio {
 
 .chat.chat-client {
     display: inline-block;
-    height: calc(100% - 230px);
+    height: calc(100% - 224px);
     width: calc(100% + 24px);
-    padding-bottom: 30px;
-    padding-top: 20px;
+    padding-bottom: 6px;
+    padding-top: 6px;
     overflow-y: auto;
     OVERFLOW-X: hidden;
     background-color: white;
@@ -336,8 +429,8 @@ audio {
 .p-messaged-chat:hover .msg-menu {
     position: absolute;
     display: inline-block;
-    width: 60px;
-    height: 25px;
+    width: 40px;
+    height: 80px;
     right: -30px;
     bottom: -10px;
     background-color: #e3e3e3;
@@ -345,33 +438,44 @@ audio {
 }
 
 .msg-menu .menu-reply {
-    position: absolute;
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    left: 5px;
+    display: block;
+    width: 40px;
+    height: 40px;
+    left: 0px;
+    font-size: 18pt;
     cursor: pointer;
+    text-align: center;
 }
 
 .msg-menu .menu-reactions {
     position: absolute;
     display: inline-block;
-    width: 25px;
-    height: 25px;
-    left: 30px;
+    width: 40px;
+    height: 40px;
+    left: 0;
     background-color: #e3e3e3;
     border-radius: 10px;
     overflow-x: hidden;
     overflow-y: scroll;
     scroll-behavior: 25px;
     cursor: pointer;
+    text-align: center;
+}
+
+.menu-reactions .reaction {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    font-size: 18pt;
 }
 
 .p-messaged-chat:hover .menu-reactions:hover {
-    height: 125px;
-    width: 30px;
-    padding: 5px 0;
-    top: -55px;
+    height: 40px;
+    width: 200px;
+    padding: 0px 0;
+    top: 40px;
+    left: -80px;
     text-align: center;
 }
 

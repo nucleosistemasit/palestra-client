@@ -14,13 +14,18 @@
     <div id="sidePanel" class="side-panel container-fluid">
       <div class="side-panel-toggle" onclick="toggleChat()"><i class="fas fa-angle-left"></i></div>
       <div class="banner row"></div>
-      <div class="row dash-name">  
-        <div class="col-4">
-          <img id="host-picture" width="28px" height="28px">
-          <input id="picture-input" type="file"/>
-          <button id="delete-picture">X</button>
+      <div class="row dash-name justify-content-around">  
+        <div class="col-3 text-center">
+          <span id="profile-picture" class="profile-picture align-middle">
+            <div id="pictureMenu" class="picture-menu picture-menu-closed col-12">
+              <label for="picture-input" class="picture-input-label">Editar</label>
+              <input id="picture-input" type="file" accept="image/png, image/jpeg, image/jpg"/>
+              <label for="delete-picture" class="picture-delete-label">Excluir</label>
+              <button id="delete-picture" class="delete-picture"></button>
+            </div> 
+          </span>
         </div>
-        <input id="local-peer-name" class="col-5 input-group-text type-msg" placeholder="Digite seu nome..." />
+        <input id="local-peer-name" class="col-4 input-group-text type-msg" placeholder="Digite seu nome..." />
         <button id="connect-peer" class="col-3 btn btn-primary btn-enter" disabled>Entrar</button>
       </div>
       <div id="chat" class="chat row chat-client">

@@ -42,12 +42,14 @@ chatDiv.onscroll = function() {scrollCheck()}
   
 function scrollCheck () { 
 
-maxY = chatDiv.scrollHeight;
-scrollPosition = chatDiv.scrollTop;
+  maxY = chatDiv.scrollHeight;
+  scrollPosition = chatDiv.scrollTop;
 
-if (scrollPosition > (maxY/1.5)){
-  scrollToBottomBtn.classList.add("btn-off"); 
-  } else {
-    scrollToBottomBtn.classList.remove("btn-off"); 
+  // Ativa ou desativa o botão de scroll para o rodapé dependendo da posição do scroll na página
+  if (scrollPosition > (maxY - 1000)){
+    scrollToBottomBtn.classList.add("btn-off");
+  } 
+  else {
+    scrollToBottomBtn.classList.remove("btn-off");
   }
 };
