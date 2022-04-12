@@ -260,7 +260,8 @@ chatSocket.onmessage = function(e) {
     if (data.type == 'chat_start') {
         if (data.username != null) {
             document.getElementById("local-peer-name").value = data.username;
-            startaudio();
+            peerNameCheck();
+            // startaudio();
         }
         else {
             document.getElementById("local-peer-name").addEventListener("keyup", peerNameCheck);
@@ -337,6 +338,15 @@ chatSocket.onclose = function(e) {
     chatSocket.send(JSON.stringify({type: 'disconnection', name: document.getElementById('local-peer-name').value}))
 };
 
+function enableAudio() {
+    if (rc && rc.isOpen()) {
+        console.log('Already connected to a room');
+    } else {
+        rc = new RoomClient(null, null, document.body, window.mediasoupClient, socket,
+        'metaversosul-nucleo-1', 'metaversosul-nucleo-1-' + makeid(64), function(){});
+    }
+}
+
 function startaudio() {
     document.getElementById("connect-peer").disabled = true;
     document.getElementById("local-peer-name").disabled = true;
@@ -345,13 +355,8 @@ function startaudio() {
     document.getElementById("local-peer-name").removeEventListener("keyup", peerNameCheck);
 
     chatSocket.send(JSON.stringify({command: 'connect', username: document.getElementById('local-peer-name').value}))
-    
-    if (rc && rc.isOpen()) {
-        console.log('Already connected to a room');
-    } else {
-        rc = new RoomClient(null, null, document.body, window.mediasoupClient, socket,
-        'metaversosul-nucleo-1', 'metaversosul-nucleo-1-' + makeid(64), function(){});
-    }
+
+    enableAudio();
 
     const sendButton = document.getElementById("send-message");
 
