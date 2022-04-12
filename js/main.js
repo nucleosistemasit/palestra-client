@@ -262,8 +262,11 @@ chatSocket.onmessage = function(e) {
             document.getElementById("local-peer-name").value = data.username;
             startaudio();
         }
+        else {
+            document.getElementById("local-peer-name").addEventListener("keyup", peerNameCheck);
+        }
         if (data.profile_picture != null) {
-            document.getElementById("host-picture").style.backgroundImage = "url(" + data.profile_picture + ")";
+            document.getElementById("profile-picture").style.backgroundImage = "url(" + data.profile_picture + ")";
         }
     }
     else if (data.type == 'chat_message') {
@@ -344,6 +347,10 @@ chatSocket.onclose = function(e) {
 function startaudio() {
     document.getElementById("connect-peer").disabled = true;
     document.getElementById("local-peer-name").disabled = true;
+    document.getElementById("message-container").style.display = "";
+    document.getElementById("replyPreview").style.display = "inline-block";
+    document.getElementById("local-peer-name").removeEventListener("keyup", peerNameCheck);
+
     chatSocket.send(JSON.stringify({command: 'connect', username: document.getElementById('local-peer-name').value}))
     
     if (rc && rc.isOpen()) {

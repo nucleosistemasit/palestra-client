@@ -561,6 +561,7 @@ audio {
     background-color: #e3e3e3;
     bottom: 0;
     width: 100%;
+    display: none;
 }
 
 .type-msg {
@@ -584,7 +585,7 @@ audio {
 
 .reply-preview {
     position: absolute;
-    display: inline-block;
+    display: none;
     width: calc(100% - 10px);
     height: 75px;
     bottom: 80px;
