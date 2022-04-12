@@ -42,7 +42,7 @@ loadingBar.style.display = "block";
 var gameInstance = null;
 var script = document.createElement("script");
 var slideIndex = 0;
-const socket = io.connect('https://metaversoaudio.youbot.us:443');
+const socket = io.connect('wss://metaversoaudio.youbot.us:443');
 var producer = null;
 var rc = null;
 var current_page = 1;
@@ -171,7 +171,7 @@ if (clientToken == null) {
     clientToken = newToken;
 }
 
-chatSocket = new ReconnectingWebSocket('wss://metaversochat.youbot.us/ws/chat/talk/?clientToken=' + clientToken);
+chatSocket = new ReconnectingWebSocket('https://metaversochat.youbot.us/ws/chat/talk/?clientToken=' + clientToken);
 // chatSocket = new ReconnectingWebSocket('ws://127.0.0.1:8000/ws/chat/talk/?clientToken=' + clientToken);
 
 chatSocket.onopen = function(e) {
