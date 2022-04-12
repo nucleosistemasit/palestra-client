@@ -325,10 +325,16 @@ chatSocket.onmessage = function(e) {
         }
         else if (data.name != null && data.name == 'toggleMic') {
             if (data.content) {
-
+                document.getElementById("micStatus").classList.add("mic-on")
+                document.getElementById("micStatus").classList.remove("mic-off")
+                document.getElementById("micOn").classList.remove("d-none")
+                document.getElementById("micOff").classList.add("d-none")
             }
             else {
-
+                document.getElementById("micStatus").classList.remove("mic-on")
+                document.getElementById("micStatus").classList.add("mic-off")
+                document.getElementById("micOn").classList.add("d-none")
+                document.getElementById("micOff").classList.remove("d-none")
             }
         }
     }
