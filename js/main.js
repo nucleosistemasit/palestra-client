@@ -42,7 +42,7 @@ loadingBar.style.display = "block";
 var gameInstance = null;
 var script = document.createElement("script");
 var slideIndex = 0;
-const socket = io.connect('wss://metaversoaudio.youbot.us:443');
+const socket = io.connect('https://metaversoaudio.youbot.us:443');
 var producer = null;
 var rc = null;
 var current_page = 1;
@@ -388,7 +388,7 @@ function startaudio() {
         if (event.target.files && event.target.files[0]) {
             const formData = new FormData();
             formData.append('profile_picture', event.target.files[0]);
-            const url = 'http://127.0.0.1:8000/api/client-picture/' + localStorage.getItem('clientToken') + '/';
+            const url = 'https://metaversochat.youbot.us/api/client-picture/' + localStorage.getItem('clientToken') + '/';
             const options = {
                 method: "POST",
                 body: formData
@@ -403,7 +403,7 @@ function startaudio() {
     });
 
     deletePicture.addEventListener("click", function() {
-        const url = 'http://127.0.0.1:8000/api/client-picture/' + localStorage.getItem('clientToken') + '/';
+        const url = 'https://metaversochat.youbot.us/api/client-picture/' + localStorage.getItem('clientToken') + '/';
         const options = {
             method: "DELETE",
         };
