@@ -268,6 +268,9 @@ chatSocket.onmessage = function(e) {
         if (data.profile_picture != null) {
             document.getElementById("profile-picture").style.backgroundImage = "url(" + data.profile_picture + ")";
         }
+        else {
+            document.getElementById("profile-picture").style.backgroundImage = "url(css/imgs/default_pic.jpg)";
+        }
     }
     else if (data.type == 'chat_message') {
         let messageBlock = document.getElementById('chat');
@@ -328,17 +331,7 @@ chatSocket.onmessage = function(e) {
             }
         }
     }
-    else if (data.type == 'chat_start') {
-        if (data.username != null) {
-            document.getElementById("host-name").textContent = data.username;
-        }
-        if (data.profile_picture != null) {
-            document.getElementById("profile-picture").style.backgroundImage = "url(" + data.profile_picture + ")";
-        }
-        else {
-            document.getElementById("profile-picture").style.backgroundImage = "url(css/imgs/default_pic.jpg)";
-        }
-    }};
+};
 
 chatSocket.onclose = function(e) {
     chatSocket.send(JSON.stringify({type: 'disconnection', name: document.getElementById('local-peer-name').value}))
