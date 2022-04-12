@@ -206,7 +206,6 @@ function printMessage (data, messageBlock, scrollToBottom) {
                                 '<span class="reaction" data-reaction="6" onclick="toggleReaction(this)">🤣</span>' +
                                 '</span>' +
                             '</span>';
-
         let reactionNode = '';        
         let reaction_types = ['1', '2', '3', '4', '5', '6'];
         let reaction_emojis = ['👍', '👏', '❤', '🙌', '😮', '🤣'];
