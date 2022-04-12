@@ -347,7 +347,7 @@ chatSocket.onclose = function(e) {
 function startaudio() {
     document.getElementById("connect-peer").disabled = true;
     document.getElementById("local-peer-name").disabled = true;
-    document.getElementById("message-container").style.display = "";
+    document.getElementById("message-container").style.display = "flex";
     document.getElementById("replyPreview").style.display = "inline-block";
     document.getElementById("local-peer-name").removeEventListener("keyup", peerNameCheck);
 
