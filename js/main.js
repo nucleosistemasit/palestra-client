@@ -54,8 +54,6 @@ script.onload = () => {
     }).then((unityInstance) => {
         gameInstance = unityInstance;
         loadingBar.style.display = "none";
-        peerNameCheck();
-        document.getElementById("local-peer-name").addEventListener("keyup", peerNameCheck);
     //           fullscreenButton.onclick = () => {
     //             unityInstance.SetFullscreen(1);
     //           };
