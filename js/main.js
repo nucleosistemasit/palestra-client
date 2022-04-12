@@ -1,8 +1,8 @@
 var buildUrl = "Build";
-var loaderUrl = buildUrl + "/PALESTRA_METAVERSOCAXIAS_DEV.loader.js";
+var loaderUrl = buildUrl + "/Palestra-prefeitura.loader.js";
 var config = {
 dataUrl: "https://agoravirtual-bucket.s3.us-west-2.amazonaws.com/PrefeituraWebGLBuild.data",
-frameworkUrl: buildUrl + "/PALESTRA_METAVERSOCAXIAS_DEV.framework.js",
+frameworkUrl: buildUrl + "/Palestra-prefeitura.framework.js",
 codeUrl: "https://agoravirtual-bucket.s3.us-west-2.amazonaws.com/PrefeituraWebGLBuild.wasm",
 streamingAssetsUrl: "StreamingAssets",
 companyName: "Núcleo",
