@@ -258,7 +258,7 @@ audio {
 
 .chat.chat-client {
     display: inline-block;
-    height: calc(100% - 224px);
+    height: calc(100% - 230px);
     width: calc(100% + 24px);
     padding-bottom: 6px;
     padding-top: 6px;
