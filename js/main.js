@@ -322,6 +322,11 @@ chatSocket.onmessage = function(e) {
         else if (data.name != null && data.name == 'slideSet') {
             gameInstance.SendMessage('ScriptHandler', 'SlideSet', data.content);
         }
+        else if (data.name != null && data.name == 'showExhibitionLink') {
+            let exhibitionLink = document.getElementById('exhibition-link');
+            exhibitionLink.href = "https://agoravirtual.com.br/?clientToken=" + localStorage.getItem('clientToken');
+            exhibitionLink.style.display = "";
+        }
         else if (data.name != null && data.name == 'toggleMic') {
             if (data.content) {
                 document.getElementById("micStatus").classList.add("mic-on")
