@@ -1,9 +1,9 @@
 var buildUrl = "Build";
 var loaderUrl = buildUrl + "/AuditorioSeniorWebGL.loader.js";
 var config = {
-dataUrl: buildUrl + "AuditorioSeniorWebGL.data",
+dataUrl: buildUrl + "/AuditorioSeniorWebGL.data",
 frameworkUrl: buildUrl + "/AuditorioSeniorWebGL.framework.js",
-codeUrl: buildUrl + "AuditorioSeniorWebGL.wasm",
+codeUrl: buildUrl + "/AuditorioSeniorWebGL.wasm",
 streamingAssetsUrl: "StreamingAssets",
 companyName: "Núcleo",
 productName: "Metaverso Caxias",
