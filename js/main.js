@@ -2,7 +2,7 @@ var buildUrl = "Build";
 var loaderUrl = buildUrl + "/AuditorioSeniorWebGL.loader.js";
 var config = {
 dataUrl: buildUrl + "AuditorioSeniorWebGL.data",
-frameworkUrl: buildUrl + "/PrefeituraWebGLBuild.framework.js",
+frameworkUrl: buildUrl + "/AuditorioSeniorWebGL.framework.js",
 codeUrl: buildUrl + "AuditorioSeniorWebGL.wasm",
 streamingAssetsUrl: "StreamingAssets",
 companyName: "Núcleo",
