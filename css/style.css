@@ -2,6 +2,19 @@ body {
     overflow: hidden;
 }
 
+#exhibition-link {
+    position: absolute;
+    bottom: 35px;
+    text-align: center;
+    left: 50%;
+    color: white;
+    transform: translate(-50%, 0px);
+    background: #69dfb6;
+    padding: 15px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
 #unity-container.unity-desktop {
     height: 100vh;
     width: 70vw;
