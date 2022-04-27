@@ -1,9 +1,9 @@
 var buildUrl = "Build";
-var loaderUrl = buildUrl + "/PrefeituraWebGLBuild.loader.js";
+var loaderUrl = buildUrl + "/AuditorioSeniorWebGL.loader.js";
 var config = {
-dataUrl: "https://agoravirtual-bucket.s3.us-west-2.amazonaws.com/PrefeituraWebGLBuild.data",
-frameworkUrl: buildUrl + "/PrefeituraWebGLBuild.framework.js",
-codeUrl: "https://agoravirtual-bucket.s3.us-west-2.amazonaws.com/PrefeituraWebGLBuild.wasm",
+dataUrl: buildUrl + "/AuditorioSeniorWebGL.data",
+frameworkUrl: buildUrl + "/AuditorioSeniorWebGL.framework.js",
+codeUrl: buildUrl + "/AuditorioSeniorWebGL.wasm",
 streamingAssetsUrl: "StreamingAssets",
 companyName: "Núcleo",
 productName: "Metaverso Caxias",
