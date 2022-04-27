@@ -320,7 +320,9 @@ chatSocket.onmessage = function(e) {
             gameInstance.SendMessage('ScriptHandler', 'WhichPalestranteWillTalk', data.content);
         }
         else if (data.name != null && data.name == 'slideSet') {
-            gameInstance.SendMessage('ScriptHandler', 'SlideSet', data.content);
+            if (data.content >= 0) {
+                gameInstance.SendMessage('ScriptHandler', 'SlideSet', data.content);
+            }
         }
         else if (data.name != null && data.name == 'showExhibitionLink') {
             let exhibitionLink = document.getElementById('exhibition-link');
