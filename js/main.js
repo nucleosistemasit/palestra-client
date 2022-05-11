@@ -47,6 +47,7 @@ var producer = null;
 var rc = null;
 var current_page = 1;
 var chatSocket = null;
+var heartbeat = null;
 script.src = loaderUrl;
 script.onload = () => {
     createUnityInstance(canvas, config, (progress) => {
@@ -151,6 +152,16 @@ function setInfiniteScroll() {
     chatContainer.addEventListener("scroll", loadNextPage);
 }
 
+function startHeartbeat() {
+    heartbeat = setInterval(function() {
+        chatSocket.send(JSON.stringify({"command": "heartbeat"}));
+    }, 30000);
+}
+
+function stopHeartbeat() {
+    clearInterval(heartbeat);
+}
+
 function toggleReaction(element) {
     let reaction_type = element.dataset.reaction;
     let id = element.closest('.msg-container').dataset.id;
@@ -173,6 +184,7 @@ chatSocket = new ReconnectingWebSocket('wss://metaversochat.youbot.us/ws/chat/ta
 // chatSocket = new ReconnectingWebSocket('ws://127.0.0.1:8000/ws/chat/talk/?clientToken=' + clientToken);
 
 chatSocket.onopen = function(e) {
+    startHeartbeat();
     document.getElementById("chat").removeEventListener("scroll", loadNextPage);
     current_page = 1;
     document.getElementById("chat").innerHTML = "";
@@ -347,7 +359,8 @@ chatSocket.onmessage = function(e) {
 };
 
 chatSocket.onclose = function(e) {
-    chatSocket.send(JSON.stringify({type: 'disconnection', name: document.getElementById('local-peer-name').value}))
+    chatSocket.send(JSON.stringify({type: 'disconnection', name: document.getElementById('local-peer-name').value}));
+    stopHeartbeat();
 };
 
 function enableAudio() {
