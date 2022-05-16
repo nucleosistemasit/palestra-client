@@ -231,7 +231,7 @@ audio {
     height: 100px;
     background: url(imgs/banner.jpg);
     background-position: center;
-    background-size: auto 100px;
+    background-size: 80%;
     background-repeat: no-repeat;
 }
 
