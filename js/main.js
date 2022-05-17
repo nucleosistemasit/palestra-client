@@ -355,6 +355,9 @@ chatSocket.onmessage = function(e) {
                 document.getElementById("micOff").classList.remove("d-none")
             }
         }
+        else if (data.name != null && data.name == 'showVideo') {
+            gameInstance.SendMessage('ScriptHandler', 'ShowVideo');
+        }
     }
 };
 
