@@ -329,8 +329,11 @@ chatSocket.onmessage = function(e) {
         if (data.name != null && data.name == 'slideChange') {
             gameInstance.SendMessage('ScriptHandler', 'SlideChange', data.content);
         }
-        else if (data.name != null && data.name == 'changeHost') {
-            gameInstance.SendMessage('ScriptHandler', 'WhichPalestranteWillTalk', data.content);
+        else if (data.name != null && data.name == 'avatarTalking') {
+            gameInstance.SendMessage('ScriptHandler', 'AvatarTalking', data.content);
+        }
+        else if (data.name != null && data.name == 'avatarIdle') {
+            gameInstance.SendMessage('ScriptHandler', 'AvatarIdle', data.content);
         }
         else if (data.name != null && data.name == 'slideSet') {
             if (data.content >= 0) {
