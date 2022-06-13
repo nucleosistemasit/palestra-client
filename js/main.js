@@ -1,14 +1,14 @@
 var buildUrl = "Build";
 var loaderUrl = buildUrl + "/WebGL.loader.js";
 var config = {
-// dataUrl: "https://agoravirtual-bucket.s3.us-west-2.amazonaws.com/AudienciaWebGLBuild.data",
-dataUrl: buildUrl + "/WebGL.data",
-frameworkUrl: buildUrl + "/WebGL.framework.js",
-codeUrl: buildUrl + "/WebGL.wasm",
-streamingAssetsUrl: "StreamingAssets",
-companyName: "Núcleo",
-productName: "Metaverso Caxias",
-productVersion: "0.1",
+    // dataUrl: "https://agoravirtual-bucket.s3.us-west-2.amazonaws.com/AudienciaWebGLBuild.data",
+    dataUrl: buildUrl + "/WebGL.data",
+    frameworkUrl: buildUrl + "/WebGL.framework.js",
+    codeUrl: buildUrl + "/WebGL.wasm",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "Núcleo",
+    productName: "Metaverso Caxias",
+    productVersion: "0.1",
 };
 
 var container = document.querySelector("#unity-container");
