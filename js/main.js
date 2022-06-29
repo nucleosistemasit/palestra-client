@@ -1,10 +1,11 @@
-var buildUrl = "Build";
-var loaderUrl = buildUrl + "/WebGL.loader.js";
+var buildUrl = "../docs/Build";
+var builString = "WebGL_CRA"
+var loaderUrl = buildUrl + "/" + builString + ".loader.js";
 var config = {
     // dataUrl: "https://agoravirtual-bucket.s3.us-west-2.amazonaws.com/AudienciaWebGLBuild.data",
-    dataUrl: buildUrl + "/WebGL.data",
-    frameworkUrl: buildUrl + "/WebGL.framework.js",
-    codeUrl: buildUrl + "/WebGL.wasm",
+    dataUrl: buildUrl +  "/" + builString + ".data",
+    frameworkUrl: buildUrl +  "/" + builString + ".framework.js",
+    codeUrl: buildUrl +  "/" + builString + ".wasm",
     streamingAssetsUrl: "StreamingAssets",
     companyName: "Núcleo",
     productName: "Metaverso Caxias",
