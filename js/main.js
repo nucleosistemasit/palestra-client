@@ -1,4 +1,4 @@
-var buildUrl = "../docs/Build";
+var buildUrl = "../Build";
 var builString = "WebGL_CRA"
 var loaderUrl = buildUrl + "/" + builString + ".loader.js";
 var config = {
