@@ -2,8 +2,8 @@ var buildUrl = "../Build/";
 var builString = "WebGLProcessor"
 var loaderUrl = buildUrl + builString + ".loader.js";
 var config = {
-    // dataUrl: "https://agoravirtual-bucket.s3.us-west-2.amazonaws.com/AudienciaWebGLBuild.data",
-    dataUrl: buildUrl + builString + ".data",
+    dataUrl: "https://agoravirtual-bucket.s3.us-west-2.amazonaws.com/WebGL_Pedro.data",
+//     dataUrl: buildUrl + builString + ".data",
     frameworkUrl: buildUrl + builString + ".framework.js",
     codeUrl: buildUrl + builString + ".wasm",
     streamingAssetsUrl: "StreamingAssets",
