@@ -1,5 +1,5 @@
 var buildUrl = "../Build/";
-var builString = "FIERGS_palestra"
+var builString = "PalestraFiergsLivestream"
 var loaderUrl = buildUrl + builString + ".loader.js";
 var config = {
 //     dataUrl: "https://agoravirtual-bucket.s3.us-west-2.amazonaws.com/WebGL_Pedro.data",
