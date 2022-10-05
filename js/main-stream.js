@@ -49,7 +49,8 @@ var current_page = 1;
 var chatSocket = null;
 var heartbeat = null;
 script.src = loaderUrl;
-script.onload = () => {
+var loadUnityButton = document.querySelector('#load-unity-button');
+loadUnityButton.onclick = () => {
     createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = 100 * progress + "%";
     }).then((unityInstance) => {
