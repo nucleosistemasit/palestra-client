@@ -12,7 +12,7 @@
     <link href="css/fontawesome/css/all.min.css" rel="stylesheet">
   </head>
   <body>
-    <div id="sidePanel" class="side-panel container-fluid">
+    <div id="sidePanel" class="side-panel d-none container-fluid">
       <div class="side-panel-toggle" onclick="toggleChat()"><i class="fas fa-angle-left"></i></div>
       <div class="banner row"></div>
       <div class="row dash-name justify-content-around">  
@@ -48,7 +48,10 @@
       </div>
     </div>
     <div id="unity-container" class="unity-desktop">
-      <a href="#" id="exhibition-link" target="_blank" style="display: none;">Ir para exposição</a>
+      <a href="#" id="exhibition-link" target="_blank" class="d-none">Ir para exposição</a>
+      <div class="btn-wrap">
+          <button id="load-unity-button">Entrar</button>
+      </div>
       <canvas id="unity-canvas"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>

@@ -12,6 +12,7 @@ var config = {
     productVersion: "0.1",
 };
 
+var buttonWrap = document.querySelector('.btn-wrap');
 var container = document.querySelector("#unity-container");
 var canvas = document.querySelector("#unity-canvas");
 var loadingBar = document.querySelector("#unity-loading-bar");
@@ -39,7 +40,6 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     // canvas.style.width = "960px";
     // canvas.style.height = "600px";
 }
-loadingBar.style.display = "block";
 
 var gameInstance = null;
 var script = document.createElement("script");
@@ -49,7 +49,11 @@ var current_page = 1;
 var chatSocket = null;
 var heartbeat = null;
 script.src = loaderUrl;
-script.onload = () => {
+var loadUnityButton = document.querySelector('#load-unity-button');
+loadUnityButton.onclick = () => {
+    loadingBar.style.display = "block";
+    loadUnityButton.style.display = "none";
+    buttonWrap.style.display = "none";
     createUnityInstance(canvas, config, (progress) => {
         progressBarFull.style.width = 100 * progress + "%";
     }).then((unityInstance) => {
