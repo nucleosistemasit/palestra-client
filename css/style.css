@@ -17,7 +17,7 @@ body {
 
 #unity-container.unity-desktop {
     height: 100vh;
-    width: 100vw;
+    width: 70vw;
     right: 0%;
     top: 0%;
     left: initial;
@@ -55,7 +55,7 @@ body {
 }
 
 #unity-canvas {
-    width: 100vw;
+    width: 70vw;
     height: 100vh;
     cursor: default;
 }
